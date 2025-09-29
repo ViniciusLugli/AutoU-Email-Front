@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react';
-import Loading from '../components/Loading';
+import Loading from '../components/Loading.jsx';
 
 const Login = () => {
   const { login, isAuthenticated, loading } = useAuth();
