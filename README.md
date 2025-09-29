@@ -8,6 +8,7 @@ Este projeto é o **frontend** da solução AutoU, desenvolvida como parte de um
 ## 🎯 Sobre o Projeto
 
 ### Contexto e Objetivo
+
 Grandes empresas lidam diariamente com um alto volume de emails que podem ser solicitações de status, uploads de arquivos, ou comunicações improdutivas. Este frontend conecta-se à API AutoU para:
 
 - **Classificar emails automaticamente** em categorias predefinidas
@@ -16,24 +17,26 @@ Grandes empresas lidam diariamente com um alto volume de emails que podem ser so
 - **Proporcionar uma experiência** moderna e responsiva
 
 ### Categorias de Classificação
+
 - **📈 Produtivo**: Emails que exigem ação ou resposta específica
 - **📭 Improdutivo**: Emails que não exigem ação imediata
 
 ## 🚀 Stack Tecnológica
 
-| Tecnologia | Versão | Propósito |
-|------------|--------|-----------|
-| **React** | 18+ | Biblioteca para construção de interfaces reativas |
-| **Vite** | 5+ | Build tool moderna com Hot Module Replacement |
-| **Tailwind CSS** | 3+ | Framework CSS utilitário para estilização rápida |
-| **React Router DOM** | 6+ | Roteamento do lado do cliente (SPA) |
-| **Axios** | 1+ | Cliente HTTP robusto para comunicação com API |
-| **React Hot Toast** | 2+ | Sistema de notificações elegantes |
-| **Lucide React** | Latest | Biblioteca de ícones SVG modernos |
+| Tecnologia           | Versão | Propósito                                         |
+| -------------------- | ------ | ------------------------------------------------- |
+| **React**            | 18+    | Biblioteca para construção de interfaces reativas |
+| **Vite**             | 5+     | Build tool moderna com Hot Module Replacement     |
+| **Tailwind CSS**     | 3+     | Framework CSS utilitário para estilização rápida  |
+| **React Router DOM** | 6+     | Roteamento do lado do cliente (SPA)               |
+| **Axios**            | 1+     | Cliente HTTP robusto para comunicação com API     |
+| **React Hot Toast**  | 2+     | Sistema de notificações elegantes                 |
+| **Lucide React**     | Latest | Biblioteca de ícones SVG modernos                 |
 
 ## ✨ Funcionalidades
 
 ### 🔐 Sistema de Autenticação
+
 - [x] **Registro de usuários** com validação de email e senha
 - [x] **Login seguro** com autenticação JWT
 - [x] **Rotas protegidas** com redirecionamento automático
@@ -41,6 +44,7 @@ Grandes empresas lidam diariamente com um alto volume de emails que podem ser so
 - [x] **Persistência de sessão** via localStorage
 
 ### 📧 Processamento de Emails
+
 - [x] **Envio de texto** direto para classificação
 - [x] **Upload de arquivos** PDF e TXT (até 10MB)
 - [x] **Validação robusta** de tipos e tamanhos de arquivo
@@ -48,6 +52,7 @@ Grandes empresas lidam diariamente com um alto volume de emails que podem ser so
 - [x] **Tratamento de erros** com retry automático
 
 ### 📊 Histórico e Resultados
+
 - [x] **Dashboard completo** com listagem de emails processados
 - [x] **Estados visuais** (Processando/Concluído/Falhou)
 - [x] **Classificações** com badges coloridos
@@ -55,6 +60,7 @@ Grandes empresas lidam diariamente com um alto volume de emails que podem ser so
 - [x] **Ordenação automática** por data de criação
 
 ### 🎨 Interface e Experiência
+
 - [x] **Design moderno** com tema escuro
 - [x] **Totalmente responsivo** para desktop e mobile
 - [x] **Componentes reutilizáveis** bem estruturados
@@ -87,11 +93,13 @@ src/
 ## 🛠️ Instalação e Execução
 
 ### Pré-requisitos
+
 - **Node.js** 18+ instalado
 - **npm** ou **yarn** como gerenciador de pacotes
 - **API Backend** rodando em `http://127.0.0.1:8000`
 
 ### 📥 Clonagem e Setup
+
 ```bash
 # Clone o repositório
 git clone git@github.com:ViniciusLugli/AutoU-Email-Front.git
@@ -105,7 +113,9 @@ cp .env.example .env
 ```
 
 ### ⚙️ Configuração de Ambiente
+
 Crie um arquivo `.env` baseado no `.env.example`:
+
 ```bash
 # URL da API (ajuste conforme necessário)
 VITE_API_BASE_URL=http://127.0.0.1:8000
@@ -116,12 +126,15 @@ VITE_APP_VERSION=1.0.0
 ```
 
 ### 🚀 Executar em Desenvolvimento
+
 ```bash
 npm run dev
 ```
+
 Acesse: **http://localhost:5173**
 
 ### 🏗️ Build para Produção
+
 ```bash
 npm run build
 npm run preview  # Para visualizar o build local
@@ -130,17 +143,19 @@ npm run preview  # Para visualizar o build local
 ## 📡 Integração com API Backend
 
 ### Endpoints Consumidos
-| Método | Endpoint | Propósito | Autenticação |
-|--------|----------|-----------|--------------|
-| `POST` | `/auth/register` | Registro de novos usuários | ❌ |
-| `POST` | `/auth/login` | Autenticação e obtenção de JWT | ❌ |
-| `GET` | `/auth/me` | Obter perfil do usuário atual | ✅ |
-| `POST` | `/texts/processar_email` | Enviar email para classificação | ✅ |
-| `GET` | `/texts/` | Listar histórico de emails processados | ✅ |
-| `GET` | `/texts/{id}` | Obter detalhes de um email específico | ✅ |
-| `GET` | `/health` | Verificar saúde da API | ❌ |
+
+| Método | Endpoint                 | Propósito                              | Autenticação |
+| ------ | ------------------------ | -------------------------------------- | ------------ |
+| `POST` | `/auth/register`         | Registro de novos usuários             | ❌           |
+| `POST` | `/auth/login`            | Autenticação e obtenção de JWT         | ❌           |
+| `GET`  | `/auth/me`               | Obter perfil do usuário atual          | ✅           |
+| `POST` | `/texts/processar_email` | Enviar email para classificação        | ✅           |
+| `GET`  | `/texts/`                | Listar histórico de emails processados | ✅           |
+| `GET`  | `/texts/{id}`            | Obter detalhes de um email específico  | ✅           |
+| `GET`  | `/health`                | Verificar saúde da API                 | ❌           |
 
 ### 🔄 Fluxo de Processamento
+
 ```mermaid
 sequenceDiagram
     participant U as Usuário
@@ -153,12 +168,12 @@ sequenceDiagram
     A->>A: Enfileira task (Celery)
     A-->>F: task_id + status "queued"
     F-->>U: "Email enviado para processamento"
-    
+
     A->>A: Worker processa (NLP + IA)
     A->>AI: Classifica e gera resposta
     AI-->>A: Categoria + resposta sugerida
     A->>A: Atualiza DB (COMPLETED)
-    
+
     U->>F: Atualiza dashboard
     F->>A: GET /texts/
     A-->>F: Lista com novos resultados
@@ -168,7 +183,9 @@ sequenceDiagram
 ## 🎨 Design System
 
 ### Paleta de Cores
+
 Inspirada na identidade visual da AutoU, utilizando:
+
 - **Fundo Principal**: `#1a1a1a` (cinza escuro)
 - **Cor de Destaque**: `#a855f7` (roxo vibrante)
 - **Texto Primário**: `#ffffff` (branco)
@@ -177,6 +194,7 @@ Inspirada na identidade visual da AutoU, utilizando:
 - **Estados de Erro**: `#ef4444` (vermelho)
 
 ### Componentes Visuais
+
 - **Cards com bordas arredondadas** e sombras sutis
 - **Animações suaves** para transições
 - **Estados visuais claros** para diferentes status
@@ -194,6 +212,7 @@ npm run lint         # Verificação de código (ESLint)
 ## 📝 Estrutura de Commits
 
 Este projeto segue a convenção de commits semânticos:
+
 - `feat:` Nova funcionalidade
 - `fix:` Correção de bugs
 - `docs:` Documentação
