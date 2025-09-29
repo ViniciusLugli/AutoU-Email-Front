@@ -1,16 +1,66 @@
-# React + Vite
+# AutoU Email Classifier - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend em React + Vite + Tailwind CSS para consumir a API de classificação de emails da AutoU.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18** - Biblioteca para construção de interfaces
+- **Vite** - Build tool e dev server
+- **Tailwind CSS** - Framework CSS utilitário
+- **React Router DOM** - Roteamento do lado do cliente
+- **Axios** - Cliente HTTP para comunicação com a API
+- **Lucide React** - Ícones SVG
+- **React Hot Toast** - Notificações elegantes
 
-## React Compiler
+## 📋 Funcionalidades Implementadas
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ✅ Autenticação
+- [x] Login com email e senha
+- [x] Registro de novos usuários  
+- [x] Autenticação JWT com localStorage
+- [x] Rotas protegidas
+- [x] Logout automático em caso de token inválido
 
-## Expanding the ESLint configuration
+### ✅ Processamento de Emails
+- [x] Envio de texto para classificação
+- [x] Upload de arquivos PDF/TXT
+- [x] Validação de tipos de arquivo
+- [x] Feedback visual durante processamento
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### ✅ Histórico e Resultados
+- [x] Listagem de emails processados
+- [x] Exibição de status (Processando/Concluído/Falhou)
+- [x] Classificação (Produtivo/Improdutivo)
+- [x] Respostas sugeridas pela IA
+- [x] Expandir/recolher detalhes dos emails
+
+### ✅ Interface e UX
+- [x] Tema escuro responsivo
+- [x] Componentes reutilizáveis
+- [x] Loading states e feedback visual
+- [x] Notificações toast
+- [x] Validação de formulários
+
+## 🛠️ Como Executar
+
+### Pré-requisitos
+- Node.js 18+
+- API Backend rodando em `http://127.0.0.1:8000`
+
+### Passos
+```bash
+git clone git@github.com:ViniciusLugli/AutoU-Email-Front.git
+cd AutoU-Email-Front
+npm install
+npm run dev
+```
+
+Acesse: http://localhost:5173
+
+## 📡 API Consumida
+- `POST /auth/register` - Registro
+- `POST /auth/login` - Login  
+- `POST /texts/processar_email` - Processar email
+- `GET /texts/` - Listar emails
+
+Para mais detalhes da API, consulte: [API_README.md](./API_README.md)
