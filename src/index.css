@@ -1,8 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @layer base {
   :root {
@@ -29,7 +29,7 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors;
+    @apply bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors;
   }
 
   .btn-secondary {
@@ -37,10 +37,10 @@
   }
 
   .input-field {
-    @apply bg-dark-800 border border-gray-600 focus:border-primary-500 text-white px-3 py-2 rounded-lg outline-none transition-colors;
+    @apply bg-gray-800 border border-gray-600 focus:border-purple-500 text-white px-3 py-2 rounded-lg outline-none transition-colors;
   }
 
   .card {
-    @apply bg-dark-800 border border-gray-700 rounded-xl p-6;
+    @apply bg-gray-800 border border-gray-700 rounded-xl p-6;
   }
 }
