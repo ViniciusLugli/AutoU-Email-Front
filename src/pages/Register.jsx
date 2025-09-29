@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.jsx';
-import { Mail, Lock, User, Eye, EyeOff, UserPlus } from 'lucide-react';
-import Loading from '../components/Loading.jsx';
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth.jsx";
+import { Mail, Lock, User, Eye, EyeOff, UserPlus } from "lucide-react";
+import Loading from "../components/Loading.jsx";
 
 const Register = () => {
   const { register, isAuthenticated, loading } = useAuth();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -25,14 +25,14 @@ const Register = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-    
+
     // Limpar erro do campo quando o usuário começar a digitar
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
-        [e.target.name]: ''
+        [e.target.name]: "",
       });
     }
   };
@@ -41,23 +41,23 @@ const Register = () => {
     const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Nome de usuário é obrigatório';
+      newErrors.username = "Nome de usuário é obrigatório";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email é obrigatório';
+      newErrors.email = "Email é obrigatório";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Email inválido";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Senha é obrigatória';
+      newErrors.password = "Senha é obrigatória";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+      newErrors.password = "Senha deve ter pelo menos 6 caracteres";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Senhas não coincidem';
+      newErrors.confirmPassword = "Senhas não coincidem";
     }
 
     setErrors(newErrors);
@@ -66,21 +66,21 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     const { confirmPassword: _, ...userData } = formData;
     const result = await register(userData);
-    
+
     if (result.success) {
       // Redirecionar para login após registro bem-sucedido
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -103,7 +103,7 @@ const Register = () => {
             Crie sua conta
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Ou{' '}
+            Ou{" "}
             <Link
               to="/login"
               className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
@@ -112,7 +112,7 @@ const Register = () => {
             </Link>
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
@@ -132,7 +132,7 @@ const Register = () => {
                   value={formData.username}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
-                    errors.username ? 'border-red-500' : 'border-gray-600'
+                    errors.username ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
                   placeholder="Nome de usuário"
                 />
@@ -141,7 +141,7 @@ const Register = () => {
                 <p className="mt-1 text-sm text-red-400">{errors.username}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -159,7 +159,7 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
-                    errors.email ? 'border-red-500' : 'border-gray-600'
+                    errors.email ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
                   placeholder="Endereço de email"
                 />
@@ -168,7 +168,7 @@ const Register = () => {
                 <p className="mt-1 text-sm text-red-400">{errors.email}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="password" className="sr-only">
                 Senha
@@ -180,13 +180,13 @@ const Register = () => {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border ${
-                    errors.password ? 'border-red-500' : 'border-gray-600'
+                    errors.password ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
                   placeholder="Senha"
                 />
@@ -206,7 +206,7 @@ const Register = () => {
                 <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="confirmPassword" className="sr-only">
                 Confirmar senha
@@ -218,13 +218,15 @@ const Register = () => {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border ${
-                    errors.confirmPassword ? 'border-red-500' : 'border-gray-600'
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
                   placeholder="Confirmar senha"
                 />
@@ -241,7 +243,9 @@ const Register = () => {
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-400">
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
           </div>

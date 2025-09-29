@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { textService } from '../services';
-import { FileText, Upload, Send } from 'lucide-react';
-import Loading from '../components/Loading.jsx';
-import EmailResultCard from '../components/EmailResultCard.jsx';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { textService } from "../services";
+import { FileText, Upload, Send } from "lucide-react";
+import Loading from "../components/Loading.jsx";
+import EmailResultCard from "../components/EmailResultCard.jsx";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const [texts, setTexts] = useState([]);
@@ -83,8 +83,6 @@ const Dashboard = () => {
       setProcessing(false);
     }
   };
-
-
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -188,7 +186,11 @@ const Dashboard = () => {
           ) : (
             <div className="space-y-4">
               {texts.map((text, index) => (
-                <EmailResultCard key={text.id || index} text={text} index={index} />
+                <EmailResultCard
+                  key={text.id || index}
+                  text={text}
+                  index={index}
+                />
               ))}
             </div>
           )}

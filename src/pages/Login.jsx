@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.jsx';
-import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react';
-import Loading from '../components/Loading.jsx';
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth.jsx";
+import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
+import Loading from "../components/Loading.jsx";
 
 const Login = () => {
   const { login, isAuthenticated, loading } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,19 +21,19 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     const result = await login(formData);
     if (result.success) {
       // Redirecionamento será feito automaticamente pelo Navigate acima
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -56,7 +56,7 @@ const Login = () => {
             Entre na sua conta
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Ou{' '}
+            Ou{" "}
             <Link
               to="/register"
               className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
@@ -65,7 +65,7 @@ const Login = () => {
             </Link>
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
@@ -89,7 +89,7 @@ const Login = () => {
                 />
               </div>
             </div>
-            
+
             <div>
               <label htmlFor="password" className="sr-only">
                 Senha
@@ -101,7 +101,7 @@ const Login = () => {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
                   value={formData.password}

@@ -1,6 +1,6 @@
-import { Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.jsx';
-import { LogOut, Mail, User } from 'lucide-react';
+import { Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth.jsx";
+import { LogOut, Mail, User } from "lucide-react";
 
 const Layout = () => {
   const { logout, isAuthenticated } = useAuth();
@@ -16,7 +16,7 @@ const Layout = () => {
                 <Mail className="h-8 w-8 text-purple-500" />
                 <h1 className="ml-2 text-xl font-bold text-white">AutoU</h1>
               </div>
-              
+
               <div className="flex items-center space-x-4">
                 <div className="flex items-center text-gray-300">
                   <User className="h-5 w-5 mr-2" />
