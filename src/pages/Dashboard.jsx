@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { textService } from '../services';
-import { FileText, Upload, Send, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import Loading from '../components/Loading';
+import { FileText, Upload, Send } from 'lucide-react';
+import Loading from '../components/Loading.jsx';
+import EmailResultCard from '../components/EmailResultCard.jsx';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -9,8 +10,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [formData, setFormData] = useState({
-    text: '',
-    file: null
+    text: "",
+    file: null,
   });
 
   const fetchTexts = async () => {
@@ -18,7 +19,7 @@ const Dashboard = () => {
       const data = await textService.getTexts();
       setTexts(data);
     } catch {
-      toast.error('Erro ao carregar histórico');
+      toast.error("Erro ao carregar histórico");
     } finally {
       setLoading(false);
     }
@@ -31,7 +32,7 @@ const Dashboard = () => {
   const handleTextChange = (e) => {
     setFormData({
       ...formData,
-      text: e.target.value
+      text: e.target.value,
     });
   };
 
@@ -39,89 +40,51 @@ const Dashboard = () => {
     const file = e.target.files[0];
     if (file) {
       // Verificar se é PDF ou TXT
-      const allowedTypes = ['application/pdf', 'text/plain'];
+      const allowedTypes = ["application/pdf", "text/plain"];
       if (allowedTypes.includes(file.type)) {
         setFormData({
           ...formData,
           file: file,
-          text: '' // Limpar texto se arquivo foi selecionado
+          text: "", // Limpar texto se arquivo foi selecionado
         });
       } else {
-        toast.error('Apenas arquivos PDF e TXT são permitidos');
-        e.target.value = '';
+        toast.error("Apenas arquivos PDF e TXT são permitidos");
+        e.target.value = "";
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.text.trim() && !formData.file) {
-      toast.error('Por favor, insira um texto ou selecione um arquivo');
+      toast.error("Por favor, insira um texto ou selecione um arquivo");
       return;
     }
 
     setProcessing(true);
-    
+
     try {
       await textService.processEmail(formData);
-      toast.success('Email enviado para processamento!');
-      
+      toast.success("Email enviado para processamento!");
+
       // Limpar formulário
-      setFormData({ text: '', file: null });
-      document.getElementById('fileInput').value = '';
-      
+      setFormData({ text: "", file: null });
+      document.getElementById("fileInput").value = "";
+
       // Recarregar lista após um pequeno delay
       setTimeout(() => {
         fetchTexts();
       }, 1000);
-      
     } catch (error) {
-      const message = error.response?.data?.detail || 'Erro ao processar email';
+      const message = error.response?.data?.detail || "Erro ao processar email";
       toast.error(message);
     } finally {
       setProcessing(false);
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'PROCESSING':
-        return <Clock className="h-5 w-5 text-yellow-500" />;
-      case 'COMPLETED':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'FAILED':
-        return <XCircle className="h-5 w-5 text-red-500" />;
-      default:
-        return <AlertCircle className="h-5 w-5 text-gray-500" />;
-    }
-  };
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 'PROCESSING':
-        return 'Processando';
-      case 'COMPLETED':
-        return 'Concluído';
-      case 'FAILED':
-        return 'Falhou';
-      default:
-        return 'Desconhecido';
-    }
-  };
-
-  const getCategoryBadge = (category) => {
-    if (!category) return null;
-    
-    const isProductive = category.toLowerCase() === 'produtivo';
-    return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-        isProductive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-      }`}>
-        {category}
-      </span>
-    );
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -140,10 +103,13 @@ const Dashboard = () => {
             <Send className="h-5 w-5 mr-2 text-purple-500" />
             Processar Email
           </h2>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="textArea" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="textArea"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Texto do Email
               </label>
               <textarea
@@ -162,7 +128,10 @@ const Dashboard = () => {
             </div>
 
             <div>
-              <label htmlFor="fileInput" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="fileInput"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Upload de Arquivo (PDF/TXT)
               </label>
               <div className="flex items-center space-x-4">
@@ -219,38 +188,7 @@ const Dashboard = () => {
           ) : (
             <div className="space-y-4">
               {texts.map((text, index) => (
-                <div key={text.id || index} className="border border-gray-600 rounded-lg p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      {getStatusIcon(text.status)}
-                      <span className="text-sm font-medium text-gray-300">
-                        {getStatusText(text.status)}
-                      </span>
-                      {text.category && getCategoryBadge(text.category)}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      {text.created_at ? new Date(text.created_at).toLocaleString('pt-BR') : 'Data não disponível'}
-                    </span>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-300 mb-1">Texto Original:</h4>
-                      <p className="text-sm text-gray-400 bg-gray-700 p-2 rounded">
-                        {text.original_text || 'Não disponível'}
-                      </p>
-                    </div>
-                    
-                    {text.generated_response && (
-                      <div>
-                        <h4 className="text-sm font-medium text-gray-300 mb-1">Resposta Sugerida:</h4>
-                        <p className="text-sm text-gray-400 bg-gray-700 p-2 rounded">
-                          {text.generated_response}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <EmailResultCard key={text.id || index} text={text} index={index} />
               ))}
             </div>
           )}
