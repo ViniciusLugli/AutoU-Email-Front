@@ -13,7 +13,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Redirecionar se já está logado
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -29,11 +28,7 @@ const Login = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const result = await login(formData);
-    if (result.success) {
-      // Redirecionamento será feito automaticamente pelo Navigate acima
-    }
-
+    await login(formData);
     setIsSubmitting(false);
   };
 

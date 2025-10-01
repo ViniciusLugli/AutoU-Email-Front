@@ -1,11 +1,12 @@
 import axios from "axios";
+import { API_CONFIG } from "../constants";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000,
+  timeout: API_CONFIG.TIMEOUT,
   headers: {
     "Content-Type": "application/json",
   },
@@ -45,7 +46,9 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, API_CONFIG.RETRY_DELAY)
+      );
 
       return api(originalRequest);
     }

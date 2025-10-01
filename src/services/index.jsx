@@ -1,6 +1,7 @@
 import api from "./api";
+import { FILE_LIMITS, API_CONFIG, ERROR_MESSAGES } from "../constants";
+import logger from "../utils/logger";
 
-// Serviços de autenticação
 export const authService = {
   register: async (userData) => {
     const response = await api.post("/auth/register", userData);
@@ -39,8 +40,8 @@ export const textService = {
       }
 
       if (data.file) {
-        if (data.file.size > 10 * 1024 * 1024) {
-          throw new Error("Arquivo muito grande. Máximo permitido: 10MB");
+        if (data.file.size > FILE_LIMITS.MAX_SIZE_BYTES) {
+          throw new Error(ERROR_MESSAGES.FILE_TOO_LARGE);
         }
         formData.append("file", data.file);
       }
@@ -49,12 +50,13 @@ export const textService = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        timeout: 60000,
+        timeout: API_CONFIG.UPLOAD_TIMEOUT,
       });
+      console.log("response", response.data);
       return response.data;
     } catch (error) {
       if (error.code === "ECONNABORTED") {
-        throw new Error("Tempo esgotado. Tente novamente.");
+        throw new Error(ERROR_MESSAGES.TIMEOUT_ERROR);
       }
       throw error;
     }
@@ -63,13 +65,42 @@ export const textService = {
   getTexts: async () => {
     try {
       const response = await api.get("/texts/");
-      const texts = Array.isArray(response.data) ? response.data : [];
+
+      let texts = [];
+
+      console.log("response", response.data);
+
+      if (Array.isArray(response.data)) {
+        texts = response.data;
+      } else if (response.data) {
+        texts =
+          response.data.results ||
+          response.data.items ||
+          response.data.data ||
+          [];
+      }
+
+      texts = Array.isArray(texts) ? texts : [];
+
+      texts = texts.map((t) => ({
+        id: t.id,
+        status: t.status || t.state || "UNKNOWN",
+        category: t.category || t.predicted_category || null,
+        original_text: t.original_text || t.text || t.content || null,
+        processed_text: t.processed_text || t.cleaned_text || null,
+        generated_response: t.generated_response || t.suggested_reply || null,
+        created_at: t.created_at || t.createdAt || t.created || null,
+        ...t,
+      }));
+
+      logger.info("Textos carregados com sucesso", { count: texts.length });
+
       return texts.sort(
         (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
       );
     } catch (error) {
-      console.error("Erro ao buscar textos:", error);
-      return [];
+      logger.error("Erro ao buscar textos", error);
+      throw error;
     }
   },
 
@@ -94,12 +125,16 @@ export const userService = {
 export const systemService = {
   healthCheck: async () => {
     try {
-      const response = await api.get("/health", { timeout: 5000 });
+      const response = await api.get("/health", {
+        timeout: API_CONFIG.HEALTH_CHECK_TIMEOUT,
+      });
+      logger.info("Health check realizado com sucesso");
       return { status: "ok", data: response.data };
     } catch (error) {
+      logger.error("Health check falhou", error);
       return {
         status: "error",
-        error: error.message || "API não está respondendo",
+        error: error.message || ERROR_MESSAGES.NETWORK_ERROR,
       };
     }
   },

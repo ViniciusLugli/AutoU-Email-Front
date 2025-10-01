@@ -17,7 +17,6 @@ const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // Redirecionar se já está logado
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -28,7 +27,6 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
 
-    // Limpar erro do campo quando o usuário começar a digitar
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
@@ -77,7 +75,6 @@ const Register = () => {
     const result = await register(userData);
 
     if (result.success) {
-      // Redirecionar para login após registro bem-sucedido
       window.location.href = "/login";
     }
 

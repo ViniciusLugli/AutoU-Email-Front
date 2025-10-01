@@ -1,31 +1,44 @@
-// Utilitários para formatação e helpers
-
 export const formatDate = (dateString) => {
-  if (!dateString) return 'Data não disponível';
-  
+  if (!dateString) return "Data não disponível";
+
   try {
     const date = new Date(dateString);
-    return date.toLocaleString('pt-BR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleString("pt-BR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   } catch {
-    return 'Data inválida';
+    return "Data inválida";
   }
 };
 
 export const truncateText = (text, maxLength = 100) => {
-  if (!text) return '';
+  if (!text) return "";
   if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + '...';
+  return text.substring(0, maxLength) + "...";
+};
+
+// Normalize line break sequences so that both actual newlines and escaped
+// sequences (e.g. "\\n", "\\r\\n") are rendered as real line breaks in the UI.
+export const normalizeLineBreaks = (text) => {
+  if (text === null || text === undefined) return text;
+  // Ensure we operate on a string
+  const s = String(text);
+
+  // First convert escaped sequences like "\\r\\n" and "\\n" into actual newlines.
+  // Then normalize any stray \r into \n.
+  return s
+    .replace(/\\r\\n/g, "\n")
+    .replace(/\\r/g, "\n")
+    .replace(/\\n/g, "\n");
 };
 
 export const getFileExtension = (filename) => {
-  if (!filename) return '';
-  return filename.split('.').pop().toLowerCase();
+  if (!filename) return "";
+  return filename.split(".").pop().toLowerCase();
 };
 
 export const isValidEmail = (email) => {
@@ -35,23 +48,23 @@ export const isValidEmail = (email) => {
 
 export const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
-    case 'processing':
-      return 'text-yellow-500';
-    case 'completed':
-      return 'text-green-500';
-    case 'failed':
-      return 'text-red-500';
+    case "processing":
+      return "text-yellow-500";
+    case "completed":
+      return "text-green-500";
+    case "failed":
+      return "text-red-500";
     default:
-      return 'text-gray-500';
+      return "text-gray-500";
   }
 };
 
 export const getCategoryColor = (category) => {
-  if (!category) return 'bg-gray-100 text-gray-800';
-  
+  if (!category) return "bg-gray-100 text-gray-800";
+
   const lowerCategory = category.toLowerCase();
-  if (lowerCategory.includes('produtiv')) {
-    return 'bg-green-100 text-green-800';
+  if (lowerCategory.includes("produtiv")) {
+    return "bg-green-100 text-green-800";
   }
-  return 'bg-red-100 text-red-800';
+  return "bg-red-100 text-red-800";
 };
