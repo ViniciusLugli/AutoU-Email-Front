@@ -6,7 +6,8 @@ const ConfirmModal = ({
   description,
   onConfirm,
   onCancel,
-  confirmText = "Confirmar",
+  confirmText = "Confirm",
+  cancelText = "Cancel",
 }) => {
   if (!open) return null;
 
@@ -25,7 +26,7 @@ const ConfirmModal = ({
             onClick={onCancel}
             className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700"
           >
-            Cancelar
+            {cancelText}
           </button>
           <button
             onClick={onConfirm}

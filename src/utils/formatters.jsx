@@ -1,5 +1,5 @@
 export const formatDate = (dateString) => {
-  if (!dateString) return "Data não disponível";
+  if (!dateString) return "Date not available";
 
   try {
     const date = new Date(dateString);
@@ -11,7 +11,7 @@ export const formatDate = (dateString) => {
       minute: "2-digit",
     });
   } catch {
-    return "Data inválida";
+    return "Invalid date";
   }
 };
 

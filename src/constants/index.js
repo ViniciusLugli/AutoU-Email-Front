@@ -26,19 +26,19 @@ export const STATUS = {
 };
 
 export const ERROR_MESSAGES = {
-  FILE_TOO_LARGE: `Arquivo muito grande. Máximo permitido: ${FILE_LIMITS.MAX_SIZE_MB}MB`,
-  INVALID_FILE_TYPE: "Apenas arquivos PDF e TXT são permitidos",
-  NETWORK_ERROR: "Erro de conexão. Verifique sua internet.",
-  TIMEOUT_ERROR: "Tempo esgotado. Tente novamente.",
-  GENERIC_ERROR: "Ocorreu um erro inesperado. Tente novamente.",
-  AUTH_ERROR: "Sessão expirada. Faça login novamente.",
-  VALIDATION_ERROR: "Por favor, verifique os dados informados.",
+  FILE_TOO_LARGE: `File too large. Maximum allowed: ${FILE_LIMITS.MAX_SIZE_MB}MB`,
+  INVALID_FILE_TYPE: "Only PDF and TXT files are allowed",
+  NETWORK_ERROR: "Network error. Check your internet connection.",
+  TIMEOUT_ERROR: "Request timed out. Please try again.",
+  GENERIC_ERROR: "An unexpected error occurred. Please try again.",
+  AUTH_ERROR: "Session expired. Please log in again.",
+  VALIDATION_ERROR: "Please check the provided information.",
 };
 
 export const SUCCESS_MESSAGES = {
-  LOGIN: "Login realizado com sucesso!",
-  REGISTER: "Usuário registrado com sucesso! Faça login.",
-  LOGOUT: "Logout realizado com sucesso!",
-  EMAIL_PROCESSED: "Email enviado para processamento!",
-  FILE_UPLOADED: "Arquivo enviado com sucesso!",
+  LOGIN: "Login successful!",
+  REGISTER: "User registered successfully! Please log in.",
+  LOGOUT: "Logout successful!",
+  EMAIL_PROCESSED: "Email submitted for processing!",
+  FILE_UPLOADED: "File uploaded successfully!",
 };

@@ -21,7 +21,7 @@ const UserModal = ({ open, onClose }) => {
           const data = await userService.getCurrentUser();
           setForm({ username: data.username || "", email: data.email || "" });
         } catch {
-          toast.error("Erro ao carregar usuário");
+          toast.error("Error loading user");
         }
       })();
     }
@@ -38,17 +38,17 @@ const UserModal = ({ open, onClose }) => {
         currentPassword || newPassword || confirmPassword;
       if (passwordFieldsFilled) {
         if (!currentPassword || !newPassword || !confirmPassword) {
-          toast.error("Preencha todos os campos de senha antes de salvar");
+          toast.error("Please fill all password fields before saving");
           setLoading(false);
           return;
         }
         if (newPassword !== confirmPassword) {
-          toast.error("A nova senha e a confirmação não coincidem");
+          toast.error("New password and confirmation do not match");
           setLoading(false);
           return;
         }
         if (newPassword.length < 8) {
-          toast.error("A nova senha deve ter ao menos 8 caracteres");
+          toast.error("New password must be at least 8 characters long");
           setLoading(false);
           return;
         }
@@ -60,10 +60,10 @@ const UserModal = ({ open, onClose }) => {
       }
 
       await userService.updateCurrentUser(payload);
-      toast.success("Usuário atualizado");
+      toast.success("User updated");
       onClose();
     } catch {
-      toast.error("Erro ao atualizar usuário");
+      toast.error("Error updating user");
     } finally {
       setLoading(false);
     }
@@ -73,13 +73,13 @@ const UserModal = ({ open, onClose }) => {
     try {
       const ok = await userService.deleteCurrentUser();
       if (ok) {
-        toast.success("Usuário deletado");
+        toast.success("User deleted");
         logout();
       } else {
-        toast.error("Falha ao deletar usuário");
+        toast.error("Failed to delete user");
       }
     } catch {
-      toast.error("Erro ao deletar usuário");
+      toast.error("Error deleting user");
     }
   };
 
@@ -89,11 +89,9 @@ const UserModal = ({ open, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
       <div className="relative bg-gray-800 rounded-lg p-6 max-w-md w-full z-10">
-        <h3 className="text-lg font-semibold text-white mb-4">
-          Editar Usuário
-        </h3>
+        <h3 className="text-lg font-semibold text-white mb-4">Edit User</h3>
 
-        <label className="block text-sm text-gray-300">Nome</label>
+        <label className="block text-sm text-gray-300">Name</label>
         <input
           value={form.username}
           onChange={(e) => setForm((s) => ({ ...s, username: e.target.value }))}
@@ -109,12 +107,14 @@ const UserModal = ({ open, onClose }) => {
 
         <div className="mt-4 border-t border-gray-700 pt-4">
           <h4 className="text-sm font-medium text-gray-200 mb-2">
-            Alterar senha
+            Change password
           </h4>
 
           <div className="space-y-2">
             <div>
-              <label className="block text-xs text-gray-400">Senha atual</label>
+              <label className="block text-xs text-gray-400">
+                Current password
+              </label>
               <input
                 type="password"
                 value={currentPassword}
@@ -124,7 +124,9 @@ const UserModal = ({ open, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs text-gray-400">Nova senha</label>
+              <label className="block text-xs text-gray-400">
+                New password
+              </label>
               <input
                 type="password"
                 value={newPassword}
@@ -135,7 +137,7 @@ const UserModal = ({ open, onClose }) => {
 
             <div>
               <label className="block text-xs text-gray-400">
-                Confirmar nova senha
+                Confirm new password
               </label>
               <input
                 type="password"
@@ -154,7 +156,7 @@ const UserModal = ({ open, onClose }) => {
                 }}
                 className="px-3 py-2 rounded-md text-gray-300 hover:bg-gray-700"
               >
-                Limpar
+                Clear
               </button>
             </div>
           </div>
@@ -166,7 +168,7 @@ const UserModal = ({ open, onClose }) => {
               onClick={() => setConfirmOpen(true)}
               className="w-full sm:w-auto px-3 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
             >
-              Deletar conta
+              Delete account
             </button>
           </div>
 
@@ -175,7 +177,7 @@ const UserModal = ({ open, onClose }) => {
               onClick={onClose}
               className="px-3 py-2 rounded-md text-gray-300 hover:bg-gray-700"
             >
-              Fechar
+              Close
             </button>
             <button
               onClick={handleSave}
@@ -189,11 +191,11 @@ const UserModal = ({ open, onClose }) => {
 
         <ConfirmModal
           open={confirmOpen}
-          title="Confirmar exclusão"
-          description="Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita."
+          title="Confirm deletion"
+          description="Are you sure you want to delete your account? This action cannot be undone."
           onConfirm={handleDelete}
           onCancel={() => setConfirmOpen(false)}
-          confirmText="Deletar"
+          confirmText="Delete"
         />
       </div>
     </div>

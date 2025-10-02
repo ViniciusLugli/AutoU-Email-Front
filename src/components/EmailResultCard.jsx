@@ -69,7 +69,7 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
     try {
       const ok = await textService.deleteText(text.id);
       if (ok) {
-        toast.success("Email deletado");
+        toast.success("Email deleted");
         setConfirmOpen(false);
         if (typeof onDeleted === "function") {
           onDeleted(text.id);
@@ -77,10 +77,10 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
           window.location.reload();
         }
       } else {
-        toast.error("Falha ao deletar");
+        toast.error("Failed to delete");
       }
     } catch {
-      toast.error("Erro ao deletar");
+      toast.error("Error deleting item");
     } finally {
       setDeleting(false);
     }
@@ -97,7 +97,7 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
           <span
             className={`text-sm font-medium ${getStatusClass(text.status)}`}
           >
-            {text.status || "Desconhecido"}
+            {text.status || "Unknown"}
           </span>
           {text.category && getCategoryBadge(text.category)}
         </div>
@@ -108,7 +108,7 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-gray-400 hover:text-gray-300 transition-colors"
-            title={isExpanded ? "Recolher" : "Expandir"}
+            title={isExpanded ? "Collapse" : "Expand"}
           >
             {isExpanded ? (
               <EyeOff className="h-4 w-4" />
@@ -119,7 +119,7 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
           <button
             onClick={() => setConfirmOpen(true)}
             className="text-gray-400 hover:text-red-500 transition-colors"
-            title="Deletar"
+            title="Delete"
           >
             <Trash2 className="h-4 w-4" />
           </button>
@@ -129,20 +129,20 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
       <div className="space-y-3">
         <div>
           <h4 className="text-sm font-medium text-gray-300 mb-1">
-            Texto Original:
+            Original Text:
           </h4>
           <p className="text-sm text-gray-400 bg-gray-700 p-3 rounded whitespace-pre-wrap break-words">
             {isExpanded
-              ? normalizeLineBreaks(text.original_text) || "Não disponível"
+              ? normalizeLineBreaks(text.original_text) || "Not available"
               : truncateText(normalizeLineBreaks(text.original_text), 150) ||
-                "Não disponível"}
+                "Not available"}
           </p>
         </div>
 
         {text.generated_response && (
           <div>
             <h4 className="text-sm font-medium text-gray-300 mb-1">
-              Resposta Sugerida:
+              Suggested Response:
             </h4>
             <p className="text-sm text-gray-400 bg-gray-700 p-3 rounded whitespace-pre-wrap break-words">
               {isExpanded
@@ -158,7 +158,7 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
         {text.processed_text && isExpanded && (
           <div>
             <h4 className="text-sm font-medium text-gray-300 mb-1">
-              Texto Processado:
+              Processed Text:
             </h4>
             <p className="text-sm text-gray-400 bg-gray-700 p-3 rounded whitespace-pre-wrap break-words">
               {normalizeLineBreaks(text.processed_text)}
@@ -169,12 +169,12 @@ const EmailResultCard = ({ text, index, onDeleted }) => {
 
       <ConfirmModal
         open={confirmOpen}
-        title="Confirmar exclusão"
-        description="Deseja realmente deletar este email processado?"
+        title="Confirm deletion"
+        description="Do you really want to delete this processed email?"
         onConfirm={handleConfirmDelete}
         onCancel={() => setConfirmOpen(false)}
-        confirmText={deleting ? "Deletando..." : "Deletar"}
-        cancelText="Cancelar"
+        confirmText={deleting ? "Deleting..." : "Delete"}
+        cancelText="Cancel"
       />
     </div>
   );

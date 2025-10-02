@@ -35,7 +35,7 @@ const Login = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <Loading text="Carregando..." />
+        <Loading text="Loading..." />
       </div>
     );
   }
@@ -48,15 +48,15 @@ const Login = () => {
             <Mail className="h-6 w-6 text-purple-600" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Entre na sua conta
+            Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Ou{" "}
+            Or{" "}
             <Link
               to="/register"
               className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
             >
-              crie uma nova conta
+              create a new account
             </Link>
           </p>
         </div>
@@ -80,14 +80,14 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className="appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-                  placeholder="Endereço de email"
+                  placeholder="Email address"
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="sr-only">
-                Senha
+                Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -102,7 +102,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
-                  placeholder="Senha"
+                  placeholder="Password"
                 />
                 <button
                   type="button"
@@ -130,7 +130,7 @@ const Login = () => {
               ) : (
                 <>
                   <LogIn className="h-4 w-4 mr-2" />
-                  Entrar
+                  Sign in
                 </>
               )}
             </button>

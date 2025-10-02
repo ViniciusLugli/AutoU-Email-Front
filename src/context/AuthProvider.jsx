@@ -27,11 +27,11 @@ export const AuthProvider = ({ children }) => {
       authService.setToken(access_token);
       setUser({ token: access_token });
 
-  console.info("Login realizado com sucesso", { email: credentials.email });
+      console.info("Login successful", { email: credentials.email });
       toast.success(SUCCESS_MESSAGES.LOGIN);
       return { success: true };
     } catch (error) {
-  console.error("Erro no login", error);
+      console.error("Error during login", error);
       const message = error.response?.data?.detail || ERROR_MESSAGES.AUTH_ERROR;
       toast.error(message);
       return { success: false, error: message };
@@ -44,11 +44,11 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       await authService.register(userData);
-  console.info("Usuário registrado com sucesso", { email: userData.email });
+      console.info("User registered successfully", { email: userData.email });
       toast.success(SUCCESS_MESSAGES.REGISTER);
       return { success: true };
     } catch (error) {
-  console.error("Erro no registro", error);
+      console.error("Error during registration", error);
       const message =
         error.response?.data?.detail || ERROR_MESSAGES.GENERIC_ERROR;
       toast.error(message);
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     authService.logout();
     setUser(null);
-  console.info("Logout realizado");
+    console.info("Logout successful");
     toast.success(SUCCESS_MESSAGES.LOGOUT);
   };
 

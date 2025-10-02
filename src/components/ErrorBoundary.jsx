@@ -47,18 +47,18 @@ class ErrorBoundary extends React.Component {
               </div>
 
               <h1 className="text-2xl font-bold text-white mb-4">
-                Algo deu errado
+                Something went wrong
               </h1>
 
               <p className="text-gray-400 mb-6">
-                Ocorreu um erro inesperado. Nossa equipe foi notificada e está
-                trabalhando para resolver o problema.
+                An unexpected error occurred. Our team has been notified and is
+                working to fix the issue.
               </p>
 
               {isDevelopment && this.state.error && (
                 <div className="bg-gray-700 rounded p-4 mb-6 text-left">
                   <h3 className="text-red-400 font-semibold mb-2">
-                    Detalhes do Erro (Desenvolvimento):
+                    Error Details (Development):
                   </h3>
                   <pre className="text-xs text-gray-300 overflow-auto">
                     {this.state.error.toString()}
@@ -77,7 +77,7 @@ class ErrorBoundary extends React.Component {
                   className="w-full flex items-center justify-center px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Tentar Novamente
+                  Try Again
                 </button>
 
                 <button
@@ -85,7 +85,7 @@ class ErrorBoundary extends React.Component {
                   className="w-full flex items-center justify-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500 transition-colors"
                 >
                   <Home className="h-4 w-4 mr-2" />
-                  Voltar ao Início
+                  Back to Home
                 </button>
               </div>
             </div>

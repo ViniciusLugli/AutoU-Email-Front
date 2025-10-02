@@ -39,23 +39,23 @@ const Register = () => {
     const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = "Nome de usuário é obrigatório";
+      newErrors.username = "Username is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email é obrigatório";
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email inválido";
+      newErrors.email = "Invalid email";
     }
 
     if (!formData.password) {
-      newErrors.password = "Senha é obrigatória";
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Senha deve ter pelo menos 6 caracteres";
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Senhas não coincidem";
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -84,7 +84,7 @@ const Register = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <Loading text="Carregando..." />
+        <Loading text="Loading..." />
       </div>
     );
   }
@@ -97,15 +97,15 @@ const Register = () => {
             <UserPlus className="h-6 w-6 text-purple-600" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Crie sua conta
+            Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Ou{" "}
+            Or{" "}
             <Link
               to="/login"
               className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
             >
-              entre na sua conta existente
+              sign in to your existing account
             </Link>
           </p>
         </div>
@@ -131,7 +131,7 @@ const Register = () => {
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
                     errors.username ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Nome de usuário"
+                  placeholder="Username"
                 />
               </div>
               {errors.username && (
@@ -158,7 +158,7 @@ const Register = () => {
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
                     errors.email ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Endereço de email"
+                  placeholder="Email address"
                 />
               </div>
               {errors.email && (
@@ -185,7 +185,7 @@ const Register = () => {
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border ${
                     errors.password ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Senha"
+                  placeholder="Password"
                 />
                 <button
                   type="button"
@@ -225,7 +225,7 @@ const Register = () => {
                       ? "border-red-500"
                       : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Confirmar senha"
+                  placeholder="Confirm password"
                 />
                 <button
                   type="button"
@@ -258,7 +258,7 @@ const Register = () => {
               ) : (
                 <>
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Criar conta
+                  Create account
                 </>
               )}
             </button>

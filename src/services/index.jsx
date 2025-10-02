@@ -93,13 +93,13 @@ export const textService = {
         ...t,
       }));
 
-  console.info("Textos carregados com sucesso", { count: texts.length });
+      console.info("Texts loaded successfully", { count: texts.length });
 
       return texts.sort(
         (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
       );
     } catch (error) {
-  console.error("Erro ao buscar textos", error);
+      console.error("Error fetching texts", error);
       throw error;
     }
   },
@@ -138,10 +138,10 @@ export const systemService = {
       const response = await api.get("/health", {
         timeout: API_CONFIG.HEALTH_CHECK_TIMEOUT,
       });
-  console.info("Health check realizado com sucesso");
+      console.info("Health check realizado com sucesso");
       return { status: "ok", data: response.data };
     } catch (error) {
-  console.error("Health check falhou", error);
+      console.error("Health check falhou", error);
       return {
         status: "error",
         error: error.message || ERROR_MESSAGES.NETWORK_ERROR,

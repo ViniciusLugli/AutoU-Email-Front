@@ -26,9 +26,9 @@ const Dashboard = () => {
     try {
       const data = await textService.getTexts();
       setTexts(data);
-  console.info("Dashboard: Textos carregados", { count: data.length });
+      console.info("Dashboard: Textos carregados", { count: data.length });
     } catch (error) {
-  console.error("Dashboard: Erro ao buscar textos", error);
+      console.error("Dashboard: Erro ao buscar textos", error);
       toast.error(ERROR_MESSAGES.GENERIC_ERROR);
     } finally {
       setLoading(false);
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
       try {
         await textService.processEmail(formData);
-  console.info("Dashboard: Email processado com sucesso", {
+        console.info("Dashboard: Email processado com sucesso", {
           hasText: !!formData.text,
           hasFile: !!formData.file,
           fileType: formData.file?.type,
@@ -97,7 +97,7 @@ const Dashboard = () => {
           fetchTexts();
         }, UI_CONFIG.REFETCH_DELAY);
       } catch (error) {
-  console.error("Dashboard: Erro ao processar email", error);
+        console.error("Dashboard: Erro ao processar email", error);
         const message =
           error.response?.data?.detail || ERROR_MESSAGES.GENERIC_ERROR;
         toast.error(message);
@@ -201,7 +201,7 @@ const Dashboard = () => {
 
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loading text="Carregando histórico..." />
+              <Loading text="Loading history..." />
             </div>
           ) : texts.length === 0 ? (
             <div className="text-center py-8 text-gray-400">

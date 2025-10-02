@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 import PropTypes from "prop-types";
 
-const Loading = ({ size = "default", text = "Carregando..." }) => {
+const Loading = ({ size = "default", text = "Loading..." }) => {
   const sizeClasses = {
     sm: "h-4 w-4",
     default: "h-8 w-8",
