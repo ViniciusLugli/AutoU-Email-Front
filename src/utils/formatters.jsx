@@ -21,15 +21,10 @@ export const truncateText = (text, maxLength = 100) => {
   return text.substring(0, maxLength) + "...";
 };
 
-// Normalize line break sequences so that both actual newlines and escaped
-// sequences (e.g. "\\n", "\\r\\n") are rendered as real line breaks in the UI.
 export const normalizeLineBreaks = (text) => {
   if (text === null || text === undefined) return text;
-  // Ensure we operate on a string
   const s = String(text);
 
-  // First convert escaped sequences like "\\r\\n" and "\\n" into actual newlines.
-  // Then normalize any stray \r into \n.
   return s
     .replace(/\\r\\n/g, "\n")
     .replace(/\\r/g, "\n")

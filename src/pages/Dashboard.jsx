@@ -10,7 +10,7 @@ import {
   ERROR_MESSAGES,
   SUCCESS_MESSAGES,
 } from "../constants";
-import logger from "../utils/logger";
+// logger removed: use console for lightweight logging
 
 const Dashboard = () => {
   const [texts, setTexts] = useState([]);
@@ -26,9 +26,9 @@ const Dashboard = () => {
     try {
       const data = await textService.getTexts();
       setTexts(data);
-      logger.info("Dashboard: Textos carregados", { count: data.length });
+  console.info("Dashboard: Textos carregados", { count: data.length });
     } catch (error) {
-      logger.error("Dashboard: Erro ao buscar textos", error);
+  console.error("Dashboard: Erro ao buscar textos", error);
       toast.error(ERROR_MESSAGES.GENERIC_ERROR);
     } finally {
       setLoading(false);
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
       try {
         await textService.processEmail(formData);
-        logger.info("Dashboard: Email processado com sucesso", {
+  console.info("Dashboard: Email processado com sucesso", {
           hasText: !!formData.text,
           hasFile: !!formData.file,
           fileType: formData.file?.type,
@@ -97,7 +97,7 @@ const Dashboard = () => {
           fetchTexts();
         }, UI_CONFIG.REFETCH_DELAY);
       } catch (error) {
-        logger.error("Dashboard: Erro ao processar email", error);
+  console.error("Dashboard: Erro ao processar email", error);
         const message =
           error.response?.data?.detail || ERROR_MESSAGES.GENERIC_ERROR;
         toast.error(message);

@@ -1,6 +1,6 @@
 import api from "./api";
 import { FILE_LIMITS, API_CONFIG, ERROR_MESSAGES } from "../constants";
-import logger from "../utils/logger";
+// logger removed: using console for lightweight logging
 
 export const authService = {
   register: async (userData) => {
@@ -93,13 +93,13 @@ export const textService = {
         ...t,
       }));
 
-      logger.info("Textos carregados com sucesso", { count: texts.length });
+  console.info("Textos carregados com sucesso", { count: texts.length });
 
       return texts.sort(
         (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
       );
     } catch (error) {
-      logger.error("Erro ao buscar textos", error);
+  console.error("Erro ao buscar textos", error);
       throw error;
     }
   },
@@ -138,10 +138,10 @@ export const systemService = {
       const response = await api.get("/health", {
         timeout: API_CONFIG.HEALTH_CHECK_TIMEOUT,
       });
-      logger.info("Health check realizado com sucesso");
+  console.info("Health check realizado com sucesso");
       return { status: "ok", data: response.data };
     } catch (error) {
-      logger.error("Health check falhou", error);
+  console.error("Health check falhou", error);
       return {
         status: "error",
         error: error.message || ERROR_MESSAGES.NETWORK_ERROR,

@@ -1,8 +1,8 @@
 export const API_CONFIG = {
-  TIMEOUT: 30000, // 30 segundos
-  UPLOAD_TIMEOUT: 60000, // 60 segundos
-  RETRY_DELAY: 1000, // 1 segundo
-  HEALTH_CHECK_TIMEOUT: 5000, // 5 segundos
+  TIMEOUT: 30000, //milissegundos
+  UPLOAD_TIMEOUT: 60000, //milissegundos
+  RETRY_DELAY: 1000, //milissegundos
+  HEALTH_CHECK_TIMEOUT: 5000, //milissegundos
 };
 
 export const FILE_LIMITS = {
@@ -13,9 +13,9 @@ export const FILE_LIMITS = {
 };
 
 export const UI_CONFIG = {
-  TOAST_DURATION: 4000, // 4 segundos
-  REFETCH_DELAY: 1000, // 1 segundo
-  LOADING_DEBOUNCE: 300, // 300ms
+  TOAST_DURATION: 4000, //segundos
+  REFETCH_DELAY: 1000, //milissegundos
+  LOADING_DEBOUNCE: 300, //milissegundos
 };
 
 export const STATUS = {

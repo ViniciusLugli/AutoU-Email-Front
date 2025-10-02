@@ -1,11 +1,9 @@
-// Sistema de logging centralizado
 class Logger {
   constructor() {
     this.isDevelopment = import.meta.env.DEV;
     this.logs = [];
   }
 
-  // Log de informação
   info(message, data = null) {
     const logEntry = this._createLogEntry("INFO", message, data);
     this.logs.push(logEntry);
@@ -15,7 +13,6 @@ class Logger {
     }
   }
 
-  // Log de warning
   warn(message, data = null) {
     const logEntry = this._createLogEntry("WARN", message, data);
     this.logs.push(logEntry);
@@ -36,18 +33,15 @@ class Logger {
 
     console.error(`[ERROR] ${message}`, error || "");
 
-    // Em produção, aqui você enviaria para um serviço como Sentry
     this._sendToMonitoringService(logEntry);
   }
 
-  // Log de debug (apenas em desenvolvimento)
   debug(message, data = null) {
     if (this.isDevelopment) {
       console.log(`[DEBUG] ${message}`, data || "");
     }
   }
 
-  // Criar entrada de log padronizada
   _createLogEntry(level, message, data) {
     return {
       level,
@@ -59,7 +53,6 @@ class Logger {
     };
   }
 
-  // Enviar para serviço de monitoramento (mock)
   _sendToMonitoringService(logEntry) {
     if (!this.isDevelopment && logEntry.level === "ERROR") {
       // Em produção, aqui você faria:

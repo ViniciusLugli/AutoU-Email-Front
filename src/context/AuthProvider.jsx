@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from "../constants";
 import PropTypes from "prop-types";
-import logger from "../utils/logger";
+// logger removed: using console for lightweight logging
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -27,11 +27,11 @@ export const AuthProvider = ({ children }) => {
       authService.setToken(access_token);
       setUser({ token: access_token });
 
-      logger.info("Login realizado com sucesso", { email: credentials.email });
+  console.info("Login realizado com sucesso", { email: credentials.email });
       toast.success(SUCCESS_MESSAGES.LOGIN);
       return { success: true };
     } catch (error) {
-      logger.error("Erro no login", error);
+  console.error("Erro no login", error);
       const message = error.response?.data?.detail || ERROR_MESSAGES.AUTH_ERROR;
       toast.error(message);
       return { success: false, error: message };
@@ -44,11 +44,11 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       await authService.register(userData);
-      logger.info("Usuário registrado com sucesso", { email: userData.email });
+  console.info("Usuário registrado com sucesso", { email: userData.email });
       toast.success(SUCCESS_MESSAGES.REGISTER);
       return { success: true };
     } catch (error) {
-      logger.error("Erro no registro", error);
+  console.error("Erro no registro", error);
       const message =
         error.response?.data?.detail || ERROR_MESSAGES.GENERIC_ERROR;
       toast.error(message);
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     authService.logout();
     setUser(null);
-    logger.info("Logout realizado");
+  console.info("Logout realizado");
     toast.success(SUCCESS_MESSAGES.LOGOUT);
   };
 
