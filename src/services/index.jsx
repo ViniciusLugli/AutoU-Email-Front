@@ -1,7 +1,5 @@
 import api from "./api";
 import { FILE_LIMITS, API_CONFIG, ERROR_MESSAGES } from "../constants";
-// logger removed: using console for lightweight logging
-
 export const authService = {
   register: async (userData) => {
     const response = await api.post("/auth/register", userData);

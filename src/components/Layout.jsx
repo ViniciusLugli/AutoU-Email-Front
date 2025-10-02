@@ -25,7 +25,7 @@ const Layout = () => {
                   className="flex items-center text-gray-300 hover:text-white transition-colors"
                 >
                   <User className="h-5 w-5 mr-2" />
-                  <span>Perfil</span>
+                  <span>User</span>
                 </button>
                 <UserModal
                   open={userModalOpen}
@@ -36,7 +36,7 @@ const Layout = () => {
                   className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sair
+                  Logout
                 </button>
               </div>
             </div>

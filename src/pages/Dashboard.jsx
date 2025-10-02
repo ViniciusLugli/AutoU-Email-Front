@@ -10,7 +10,6 @@ import {
   ERROR_MESSAGES,
   SUCCESS_MESSAGES,
 } from "../constants";
-// logger removed: use console for lightweight logging
 
 const Dashboard = () => {
   const [texts, setTexts] = useState([]);
@@ -117,14 +116,14 @@ const Dashboard = () => {
         <div>
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <p className="mt-2 text-gray-400">
-            Processe emails e visualize o histórico de classificações
+            Process emails and view the history of processed emails.
           </p>
         </div>
 
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <Send className="h-5 w-5 mr-2 text-purple-500" />
-            Processar Email
+            Process Email
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -133,7 +132,7 @@ const Dashboard = () => {
                 htmlFor="textArea"
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Texto do Email
+                Email Content
               </label>
               <textarea
                 id="textArea"
@@ -147,7 +146,7 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center justify-center">
-              <span className="text-gray-400">OU</span>
+              <span className="text-gray-400">OR</span>
             </div>
 
             <div>
@@ -155,7 +154,7 @@ const Dashboard = () => {
                 htmlFor="fileInput"
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Upload de Arquivo (PDF/TXT)
+                Archive Upload (PDF/TXT)
               </label>
               <div className="flex items-center space-x-4">
                 <input
@@ -186,7 +185,7 @@ const Dashboard = () => {
               ) : (
                 <>
                   <Upload className="h-4 w-4 mr-2" />
-                  Processar Email
+                  Process Email
                 </>
               )}
             </button>
@@ -196,7 +195,7 @@ const Dashboard = () => {
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <FileText className="h-5 w-5 mr-2 text-purple-500" />
-            Histórico de Emails
+            Email History
           </h2>
 
           {loading ? (
@@ -206,7 +205,7 @@ const Dashboard = () => {
           ) : texts.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>Nenhum email processado ainda</p>
+              <p>No emails processed yet</p>
             </div>
           ) : (
             <div className="space-y-4">

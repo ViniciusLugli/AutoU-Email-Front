@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from "../constants";
 import PropTypes from "prop-types";
-// logger removed: using console for lightweight logging
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
