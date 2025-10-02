@@ -1,9 +1,16 @@
-import { useState, useEffect } from 'react';
-import { textService } from '../services';
-import { FileText, Upload, Send } from 'lucide-react';
-import Loading from '../components/Loading.jsx';
-import EmailResultCard from '../components/EmailResultCard.jsx';
-import toast from 'react-hot-toast';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { textService } from "../services";
+import { FileText, Upload, Send } from "lucide-react";
+import Loading from "../components/Loading.jsx";
+import EmailResultCard from "../components/EmailResultCard.jsx";
+import toast from "react-hot-toast";
+import {
+  FILE_LIMITS,
+  UI_CONFIG,
+  ERROR_MESSAGES,
+  SUCCESS_MESSAGES,
+} from "../constants";
+// logger removed: use console for lightweight logging
 
 const Dashboard = () => {
   const [texts, setTexts] = useState([]);
@@ -13,83 +20,100 @@ const Dashboard = () => {
     text: "",
     file: null,
   });
+  const fileInputRef = useRef(null);
 
-  const fetchTexts = async () => {
+  const fetchTexts = useCallback(async () => {
     try {
       const data = await textService.getTexts();
       setTexts(data);
-    } catch {
-      toast.error("Erro ao carregar histórico");
+      console.info("Dashboard: Textos carregados", { count: data.length });
+    } catch (error) {
+      console.error("Dashboard: Erro ao buscar textos", error);
+      toast.error(ERROR_MESSAGES.GENERIC_ERROR);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const resetForm = useCallback(() => {
+    setFormData({ text: "", file: null });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, []);
 
   useEffect(() => {
     fetchTexts();
+  }, [fetchTexts]);
+
+  const handleTextChange = useCallback((e) => {
+    setFormData((prev) => ({
+      ...prev,
+      text: e.target.value,
+    }));
   }, []);
 
-  const handleTextChange = (e) => {
-    setFormData({
-      ...formData,
-      text: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
+  const handleFileChange = useCallback((e) => {
     const file = e.target.files[0];
     if (file) {
-      // Verificar se é PDF ou TXT
-      const allowedTypes = ["application/pdf", "text/plain"];
-      if (allowedTypes.includes(file.type)) {
-        setFormData({
-          ...formData,
+      if (FILE_LIMITS.ALLOWED_TYPES.includes(file.type)) {
+        setFormData((prev) => ({
+          ...prev,
           file: file,
-          text: "", // Limpar texto se arquivo foi selecionado
-        });
+          text: "",
+        }));
       } else {
-        toast.error("Apenas arquivos PDF e TXT são permitidos");
-        e.target.value = "";
+        toast.error(ERROR_MESSAGES.INVALID_FILE_TYPE);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       }
     }
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    if (!formData.text.trim() && !formData.file) {
-      toast.error("Por favor, insira um texto ou selecione um arquivo");
-      return;
-    }
+      if (!formData.text.trim() && !formData.file) {
+        toast.error(ERROR_MESSAGES.VALIDATION_ERROR);
+        return;
+      }
 
-    setProcessing(true);
+      setProcessing(true);
 
-    try {
-      await textService.processEmail(formData);
-      toast.success("Email enviado para processamento!");
+      try {
+        await textService.processEmail(formData);
+        console.info("Dashboard: Email processado com sucesso", {
+          hasText: !!formData.text,
+          hasFile: !!formData.file,
+          fileType: formData.file?.type,
+        });
+        toast.success(SUCCESS_MESSAGES.EMAIL_PROCESSED);
 
-      // Limpar formulário
-      setFormData({ text: "", file: null });
-      document.getElementById("fileInput").value = "";
+        resetForm();
 
-      // Recarregar lista após um pequeno delay
-      setTimeout(() => {
-        fetchTexts();
-      }, 1000);
-    } catch (error) {
-      const message = error.response?.data?.detail || "Erro ao processar email";
-      toast.error(message);
-    } finally {
-      setProcessing(false);
-    }
-  };
-
-
+        setTimeout(() => {
+          fetchTexts();
+        }, UI_CONFIG.REFETCH_DELAY);
+      } catch (error) {
+        console.error("Dashboard: Erro ao processar email", error);
+        const message =
+          error.response?.data?.detail || ERROR_MESSAGES.GENERIC_ERROR;
+        toast.error(message);
+      } finally {
+        setProcessing(false);
+        setTimeout(() => {
+          fetchTexts();
+        }, 8000);
+      }
+    },
+    [formData, resetForm, fetchTexts]
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="space-y-8">
-        {/* Cabeçalho */}
         <div>
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <p className="mt-2 text-gray-400">
@@ -97,7 +121,6 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Formulário de processamento */}
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <Send className="h-5 w-5 mr-2 text-purple-500" />
@@ -136,6 +159,7 @@ const Dashboard = () => {
               </label>
               <div className="flex items-center space-x-4">
                 <input
+                  ref={fileInputRef}
                   id="fileInput"
                   type="file"
                   onChange={handleFileChange}
@@ -169,7 +193,6 @@ const Dashboard = () => {
           </form>
         </div>
 
-        {/* Histórico de emails */}
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <FileText className="h-5 w-5 mr-2 text-purple-500" />
@@ -178,7 +201,7 @@ const Dashboard = () => {
 
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loading text="Carregando histórico..." />
+              <Loading text="Loading history..." />
             </div>
           ) : texts.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
@@ -188,7 +211,11 @@ const Dashboard = () => {
           ) : (
             <div className="space-y-4">
               {texts.map((text, index) => (
-                <EmailResultCard key={text.id || index} text={text} index={index} />
+                <EmailResultCard
+                  key={text.id || index}
+                  text={text}
+                  index={index}
+                />
               ))}
             </div>
           )}

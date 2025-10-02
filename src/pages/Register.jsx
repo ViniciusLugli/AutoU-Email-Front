@@ -1,23 +1,22 @@
-import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.jsx';
-import { Mail, Lock, User, Eye, EyeOff, UserPlus } from 'lucide-react';
-import Loading from '../components/Loading.jsx';
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth.jsx";
+import { Mail, Lock, User, Eye, EyeOff, UserPlus } from "lucide-react";
+import Loading from "../components/Loading.jsx";
 
 const Register = () => {
   const { register, isAuthenticated, loading } = useAuth();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // Redirecionar se já está logado
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -25,14 +24,13 @@ const Register = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-    
-    // Limpar erro do campo quando o usuário começar a digitar
+
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
-        [e.target.name]: ''
+        [e.target.name]: "",
       });
     }
   };
@@ -41,23 +39,23 @@ const Register = () => {
     const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Nome de usuário é obrigatório';
+      newErrors.username = "Username is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email é obrigatório';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Invalid email";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Senha é obrigatória';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Senhas não coincidem';
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -66,28 +64,27 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
+
     const { confirmPassword: _, ...userData } = formData;
     const result = await register(userData);
-    
+
     if (result.success) {
-      // Redirecionar para login após registro bem-sucedido
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
-    
+
     setIsSubmitting(false);
   };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <Loading text="Carregando..." />
+        <Loading text="Loading..." />
       </div>
     );
   }
@@ -100,19 +97,19 @@ const Register = () => {
             <UserPlus className="h-6 w-6 text-purple-600" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Crie sua conta
+            Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Ou{' '}
+            Or{" "}
             <Link
               to="/login"
               className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
             >
-              entre na sua conta existente
+              sign in to your existing account
             </Link>
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
@@ -132,16 +129,16 @@ const Register = () => {
                   value={formData.username}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
-                    errors.username ? 'border-red-500' : 'border-gray-600'
+                    errors.username ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Nome de usuário"
+                  placeholder="Username"
                 />
               </div>
               {errors.username && (
                 <p className="mt-1 text-sm text-red-400">{errors.username}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -159,16 +156,16 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border ${
-                    errors.email ? 'border-red-500' : 'border-gray-600'
+                    errors.email ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Endereço de email"
+                  placeholder="Email address"
                 />
               </div>
               {errors.email && (
                 <p className="mt-1 text-sm text-red-400">{errors.email}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="password" className="sr-only">
                 Senha
@@ -180,15 +177,15 @@ const Register = () => {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border ${
-                    errors.password ? 'border-red-500' : 'border-gray-600'
+                    errors.password ? "border-red-500" : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Senha"
+                  placeholder="Password"
                 />
                 <button
                   type="button"
@@ -206,7 +203,7 @@ const Register = () => {
                 <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="confirmPassword" className="sr-only">
                 Confirmar senha
@@ -218,15 +215,17 @@ const Register = () => {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className={`appearance-none rounded-md relative block w-full pl-10 pr-10 py-2 border ${
-                    errors.confirmPassword ? 'border-red-500' : 'border-gray-600'
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-gray-600"
                   } placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm`}
-                  placeholder="Confirmar senha"
+                  placeholder="Confirm password"
                 />
                 <button
                   type="button"
@@ -241,7 +240,9 @@ const Register = () => {
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-400">
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
           </div>
@@ -257,7 +258,7 @@ const Register = () => {
               ) : (
                 <>
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Criar conta
+                  Create account
                 </>
               )}
             </button>
