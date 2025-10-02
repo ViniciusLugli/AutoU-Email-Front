@@ -12,22 +12,14 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError() {
-    // Atualiza o state para mostrar a UI de erro
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log do erro para monitoramento
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
-
-    // Atualiza o state com detalhes do erro
     this.setState({
       error: error,
       errorInfo: errorInfo,
     });
-
-    // Aqui você pode enviar o erro para um serviço de monitoramento
-    // como Sentry, LogRocket, etc.
   }
 
   handleReset = () => {

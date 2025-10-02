@@ -108,17 +108,27 @@ export const textService = {
     const response = await api.get(`/texts/${textId}`);
     return response.data;
   },
+
+  deleteText: async (textId) => {
+    const response = await api.delete(`/texts/${textId}`);
+    return response.status === 204;
+  },
 };
 
 export const userService = {
-  getUsers: async () => {
-    const response = await api.get("/users/");
+  getCurrentUser: async () => {
+    const response = await api.get("/users/me");
     return response.data;
   },
 
-  getCurrentUser: async () => {
-    const response = await api.get("/auth/me");
+  updateCurrentUser: async (data) => {
+    const response = await api.put("/users/me", data);
     return response.data;
+  },
+
+  deleteCurrentUser: async () => {
+    const response = await api.delete("/users/me");
+    return response.status === 204;
   },
 };
 

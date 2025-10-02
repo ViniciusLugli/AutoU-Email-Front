@@ -1,3 +1,8 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import ConfirmModal from "./ConfirmModal";
+import { textService } from "../services";
+import toast from "react-hot-toast";
 import {
   Clock,
   CheckCircle,
@@ -5,8 +10,8 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
+  Trash2,
 } from "lucide-react";
-import { useState } from "react";
 import {
   formatDate,
   truncateText,
@@ -14,8 +19,10 @@ import {
   normalizeLineBreaks,
 } from "../utils/formatters";
 
-const EmailResultCard = ({ text, index }) => {
+const EmailResultCard = ({ text, index, onDeleted }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -57,6 +64,28 @@ const EmailResultCard = ({ text, index }) => {
     );
   };
 
+  const handleConfirmDelete = async () => {
+    setDeleting(true);
+    try {
+      const ok = await textService.deleteText(text.id);
+      if (ok) {
+        toast.success("Email deletado");
+        setConfirmOpen(false);
+        if (typeof onDeleted === "function") {
+          onDeleted(text.id);
+        } else if (typeof window !== "undefined") {
+          window.location.reload();
+        }
+      } else {
+        toast.error("Falha ao deletar");
+      }
+    } catch {
+      toast.error("Erro ao deletar");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <div
       key={text.id || index}
@@ -86,6 +115,13 @@ const EmailResultCard = ({ text, index }) => {
             ) : (
               <Eye className="h-4 w-4" />
             )}
+          </button>
+          <button
+            onClick={() => setConfirmOpen(true)}
+            className="text-gray-400 hover:text-red-500 transition-colors"
+            title="Deletar"
+          >
+            <Trash2 className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -130,8 +166,24 @@ const EmailResultCard = ({ text, index }) => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={confirmOpen}
+        title="Confirmar exclusão"
+        description="Deseja realmente deletar este email processado?"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmOpen(false)}
+        confirmText={deleting ? "Deletando..." : "Deletar"}
+        cancelText="Cancelar"
+      />
     </div>
   );
+};
+
+EmailResultCard.propTypes = {
+  text: PropTypes.object.isRequired,
+  index: PropTypes.number,
+  onDeleted: PropTypes.func,
 };
 
 export default EmailResultCard;

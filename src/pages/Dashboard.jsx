@@ -103,6 +103,9 @@ const Dashboard = () => {
         toast.error(message);
       } finally {
         setProcessing(false);
+        setTimeout(() => {
+          fetchTexts();
+        }, 8000);
       }
     },
     [formData, resetForm, fetchTexts]
